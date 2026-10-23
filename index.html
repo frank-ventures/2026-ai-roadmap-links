@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Roadmap — Skill Tree Course Map</title>
+<style>
+  :root{
+    --blue:#2F94EF; --orange:#FF6900; --char:#1F2124; --char2:#33373D;
+    --bg:#F5F7FA; --card:#FFFFFF; --line:#E3E8EF; --txt:#1F2124; --mut:#5B6570;
+    --free:#1B8A5A; --paid:#C24E1E; --mixed:#8A6D3B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+  header.top{background:var(--char);color:#fff;padding:18px 24px;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline}
+  header.top h1{font-size:19px;font-weight:600}
+  header.top .src{color:#AEB6BF;font-size:12.5px}
+  header.top .src a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 20px 60px}
+  .legend{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:8px;
+          padding:10px 14px;font-size:12.8px;color:var(--mut);margin-bottom:18px}
+  .legend b{color:var(--txt)}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+  .bar input,.bar select{padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card)}
+  .bar input{flex:1;min-width:220px}
+  .seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{border:0;background:var(--card);padding:9px 14px;font-size:13.5px;cursor:pointer;color:var(--mut)}
+  .seg button.on{background:var(--blue);color:#fff}
+  .count{font-size:13px;color:var(--mut)}
+  /* class cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+  .cls{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;cursor:pointer;
+       transition:box-shadow .15s,transform .15s;border-top:5px solid var(--blue)}
+  .cls:hover{box-shadow:0 6px 18px rgba(31,33,36,.12);transform:translateY(-2px)}
+  .cls h3{font-size:17px;margin-bottom:2px}
+  .cls .em{font-size:22px;margin-right:6px}
+  .cls .role{color:var(--mut);font-size:13.5px;margin-bottom:10px}
+  .cls .fi{font-size:13px}
+  .cls .fi b{color:var(--orange)}
+  .cls .stat{margin-top:10px;font-size:12.5px;color:var(--mut)}
+  .cls .stat .f{color:var(--free);font-weight:600}
+  /* detail */
+  .back{display:inline-block;margin-bottom:14px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);
+        background:var(--card);cursor:pointer;font-size:13.5px;color:var(--char2)}
+  .back:hover{border-color:var(--blue);color:var(--blue)}
+  .dhead{margin-bottom:6px;font-size:24px}
+  .dsub{color:var(--mut);margin-bottom:16px;font-size:14.5px}
+  .res{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:12px}
+  .res h4{font-size:15.5px;margin-bottom:6px}
+  .res .prov{color:var(--mut);font-size:13px;margin-bottom:8px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+  .chip{font-size:12px;padding:3px 9px;border-radius:20px;background:#EDF3FB;color:#245c9b}
+  .chip.time{background:#F0ECF7;color:#5b3f85}
+  .chip.free{background:#E3F3EB;color:var(--free)}
+  .chip.paid{background:#FBEAE0;color:var(--paid)}
+  .chip.mixed{background:#F5EFDF;color:var(--mixed)}
+  .notes{font-size:13px;color:var(--txt);margin-top:6px}
+  .links{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+  .links a{font-size:12.8px;text-decoration:none;word-break:break-all}
+  .links a.opened{color:#1B6FC4}
+  .links a.verified{color:#7a5da6}
+  .links a.plain{color:var(--mut)}
+  .links a:hover{text-decoration:underline}
+  .lk{font-size:11.5px;padding:1px 6px;border-radius:4px;margin-right:6px;color:#fff}
+  .lk.opened{background:#1B8A5A}.lk.verified{background:#8A6D3B}.lk.plain{background:#98A2AE}
+  .slidebox{background:#FBFCFE;border:1px dashed var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+  .slidebox h5{font-size:13.5px;color:var(--orange);margin-bottom:8px}
+  .slidebox table{width:100%;border-collapse:collapse;font-size:12.6px}
+  .slidebox th{background:#EEF3FA;text-align:left;padding:6px 8px;border:1px solid var(--line);font-size:12px}
+  .slidebox td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+  /* see-all rows */
+  .row{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:9px}
+  .row .cls-tag{font-size:11.5px;color:#fff;background:var(--char2);padding:2px 8px;border-radius:10px;margin-right:8px}
+  .row h4{display:inline;font-size:14.5px}
+  .row .prov{color:var(--mut);font-size:12.5px}
+  .foot{margin-top:26px;font-size:12.5px;color:var(--mut)}
+  .foot h4{font-size:13.5px;color:var(--txt);margin:14px 0 6px}
+  .foot ul{margin-left:18px}
+  .foot li{margin-bottom:5px}
+  .foot a{color:#1B6FC4;word-break:break-all}
+  .hidden{display:none}
+  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🎮 The AI Roadmap — Skill Tree Course Map</h1>
+  <span class="src">From Tina Huang's <a href="https://www.youtube.com/watch?v=mn0agTT8lG8" target="_blank" rel="noopener">"Here's the AI Roadmap You Actually Need"</a> (25:31, Sept 2026) · links compiled &amp; verified 23 Oct 2026</span>
+</header>
+<div class="wrap">
+  <div class="legend"><b>How to read the links:</b>
+    <span class="lk opened">OPENED</span> link opened and confirmed live on 23 Oct 2026 &nbsp;·&nbsp;
+    <span class="lk verified">SEARCH-VERIFIED</span> official page confirmed via search (site blocks automated opening, e.g. LinkedIn) &nbsp;·&nbsp;
+    <span class="lk plain">LINK</span> supporting/resource link.<br>
+    Prices are US as listed on the pages; subscriptions (Coursera ~$49/mo) vary by country.
+  </div>
+  <div id="view"></div>
+</div>
+<script>
+const DATA = [
+{id:"island",emoji:"🏝️",name:"Tutorial Island",tagline:"The basics everyone starts with: what AI is, how to prompt it, and the everyday tools.",
+ forYouIf:["You're brand new to AI and don't know where to start","You use ChatGPT/Claude casually but want to use them properly at work","You want one weekend project that gives you a solid, certified foundation"],
+ intro:"Skills: understand generative AI basics → learn to prompt → general tools (chat, deep research, image/video/audio, data). Her top pick today: the Google AI Professional Certificate over the older Essentials combo.",
+ resources:[
+ {n:"Google AI Essentials",prov:"Google · Coursera",fmt:"Video + light assignments (now a 5-course specialization)",time:"<10 h total",price:"Coursera sub ~$49/mo, 7-day trial; some courses free to audit",cost:"mixed",flag:"combo",
+  links:[{t:"https://www.coursera.org/google-certificates/ai-essentials-google",k:"opened"}],
+  notes:"The \"Google Essentials combo\": AI Essentials + Prompting Essentials. Her first course ever; sub-10 hours, doable in a weekend. 2.0M+ enrolled."},
+ {n:"Google AI Professional Certificate",prov:"Google · Coursera",fmt:"8 courses: AI fundamentals → brainstorming/planning, research, writing, content, data analysis, app building, app deployment",time:"~8–13 h",price:"~$49/mo (Coursera Plus), 7-day trial; includes 3-mo free Google AI Pro",cost:"mixed",flag:"her top pick",
+  links:[{t:"https://www.coursera.org/professional-certificates/google-ai",k:"opened"}],
+  notes:"Her recommendation today if choosing only one. More interactive than Essentials. Also on Google Skills & Udemy. Caveat she notes: very Google-flavoured."},
+ {n:"Generative AI for Everyone",prov:"DeepLearning.AI (Andrew Ng)",fmt:"Video + assignments",time:"~5–6 h",price:"Free to audit on Coursera; certificate needs DLAI Pro / Coursera sub",cost:"mixed",
+  links:[{t:"https://www.deeplearning.ai/courses/generative-ai-for-everyone",k:"opened"},{t:"https://www.coursera.org/learn/generative-ai-for-everyone",k:"opened"}],
+  notes:"First half of her \"Andrew Ng path\"."},
+ {n:"AI Prompting (now: AI Prompting for Everyone)",prov:"DeepLearning.AI (Andrew Ng)",fmt:"Video + graded labs",time:"~7 h (12–15 h combined with the course above)",price:"Free to watch; labs + certificate need DeepLearning.AI Pro (~$25–30/mo)",cost:"mixed",
+  links:[{t:"https://www.deeplearning.ai/short-courses/ai-prompting-for-everyone/",k:"opened"},{t:"https://learn.deeplearning.ai/courses/ai-prompting-for-everyone",k:"plain"}],
+  notes:"Second half of the Andrew Ng path. Relaunched July 2026 as \"AI Prompting for Everyone\"."},
+ {n:"Elements of AI (+ Building AI)",prov:"Univ. of Helsinki + MinnaLearn",fmt:"Interactive text + exercises",time:"30–50 h full series",price:"Free incl. certificate",cost:"free",
+  links:[{t:"https://www.elementsofai.com/",k:"opened"},{t:"https://buildingai.elementsofai.com/",k:"plain"}],
+  notes:"Best genuinely-free full course; a series, not a weekend."},
+ {n:"Claude path: Claude 101 · AI Fluency: Framework & Foundations · AI Capabilities & Limitations",prov:"Anthropic",fmt:"Structured lessons + quizzes, badge/certificate per course",time:"~10–15 h total",price:"Free (account only)",cost:"free",
+  links:[{t:"https://anthropic.skilljar.com/claude-101",k:"opened"},{t:"https://anthropic.skilljar.com/ai-fluency-framework-foundations",k:"opened"},{t:"https://anthropic.skilljar.com/ai-capabilities-and-limitations",k:"opened"},{t:"https://academy.claude.com",k:"plain"}],
+  notes:"Courses migrating from Skilljar to Claude Academy. Caveat: heavily Claude-flavoured."},
+ {n:"OpenAI path: AI Foundations + Applied AI Foundations (+ Agents & Workflows = certificate)",prov:"OpenAI Academy",fmt:"Self-paced exercises + assessments (badge at 80%)",time:"2–5 h total",price:"Free with ChatGPT account",cost:"free",
+  links:[{t:"https://academy.openai.com/public/courses/ai-foundations-dnq5w",k:"opened"},{t:"https://academy.openai.com/public/courses/applied-ai-foundations-szsmv",k:"opened"},{t:"https://academy.openai.com/pages/courses",k:"plain"}],
+  notes:"Caveat: OpenAI-flavoured."},
+ {n:"Kaggle 5-Day Gen AI Intensive with Google",prov:"Kaggle + Google",fmt:"Self-paced guide: whitepapers, podcasts, codelabs, capstone + badge",time:"5 days (~20 h)",price:"Free (Kaggle account)",cost:"free",
+  links:[{t:"https://www.kaggle.com/learn-guide/5-day-genai",k:"opened"}],
+  notes:"The live cohort ran once (Mar–Apr 2025); the guide remains as self-paced material."},
+ {n:"Careers: Essentials in Generative AI",prov:"Microsoft + LinkedIn Learning",fmt:"Video + final exam, badge/certificate. Slide shows refreshed path \"Generative AI: From Prompts to Partnership\" (updated 2 Oct 2026): Getting Started with GenAI, AI Fluency Essentials, LLMs, Responsible & Generative AI, Deep Research & AI Agents, Data Analysis & Productivity, AI for Creativity",time:"~5 h",price:"2024 free-promo status unclear (promo expired); normal route = LinkedIn Learning subscription",cost:"mixed",
+  links:[{t:"https://www.linkedin.com/learning/paths/career-essentials-in-generative-ai-by-microsoft-and-linkedin",k:"verified"},{t:"https://wwps.microsoft.com/digital-skills/gen-ai-productivity-microsoft-linkedin",k:"plain"}],
+  notes:"The refresh she predicted (Sept 25) landed Oct 2. Microsoft-flavoured."}
+ ]},
+{id:"strategist",emoji:"♟️",name:"Strategist",tagline:"Leading people and decisions with AI — you don't build it, you direct it.",
+ forYouIf:["You manage a team or budget and must decide what AI to adopt","You need to talk shop with vendors and engineers without getting hoodwinked","You're writing the AI strategy for your department"],
+ intro:"Skills: vendor landscape → run a team with AI → set strategy → lead adoption (buy-in, ROI).",
+ resources:[
+ {n:"AI Leadership",prov:"OpenAI Academy",fmt:"Self-paced text + activities + assessment; covers business priorities, governance, stakeholders, adoption roadmap, drafting an AI strategy — vendor-neutral",time:"~3–4 h",price:"Free",cost:"free",flag:"her pick",
+  links:[{t:"https://academy.openai.com/public/courses/ai-leadership-kaf7k",k:"opened"}],
+  notes:"Her pick for non-vendor-affiliated learners."},
+ {n:"AI for Everyone",prov:"DeepLearning.AI · Coursera",fmt:"Video",time:"~7–10 h",price:"Free to audit; 2.65M enrolled",cost:"mixed",
+  links:[{t:"https://www.coursera.org/learn/ai-for-everyone",k:"opened"}],
+  notes:"Optional supplement — pre-GenAI-boom so dated content, evergreen org frameworks."},
+ {n:"Vendor leadership certificates (Anthropic, Google, Microsoft, AWS, OpenAI — on slide)",prov:"Various",fmt:"Varies",time:"Varies",price:"Varies; several free",cost:"mixed",
+  links:[{t:"https://www.nvidia.com/en-us/learn/learning-paths/",k:"opened"}],
+  notes:"See vendor learning portals; NVIDIA link is a leadership-adjacent path example."},
+ {n:"Co-Intelligence (book, Ethan Mollick)",prov:"The Publishing Project",fmt:"Book — organizational-thinking frameworks",time:"—",price:"~£10–20",cost:"paid",
+  links:[{t:"https://www.penguinrandomhouse.com/books/715879/co-intelligence-by-ethan-mollick/",k:"verified"}]},
+ {n:"AI Snake Oil (book, Narayanan & Kapoor)",prov:"Princeton UP",fmt:"Book — skeptical view of what AI can't do in orgs",time:"—",price:"~£15–25",cost:"paid",
+  links:[{t:"https://aisnakeoil.com",k:"verified"}]}
+ ]},
+{id:"rogue",emoji:"🗡️",name:"Rogue",tagline:"Hands-on with AI agents — you hack things together and make AI do the work.",
+ forYouIf:["You learn by tinkering, not by lectures","You want AI agents to automate real tasks for you now","You're happy reading docs and forums to figure tools out"],
+ intro:"Skills: pick an ecosystem → go through its docs & tutorials → build agents. No general course exists for this class — you learn by building. Books/certificates: none — \"it's too hacky and custom\".",
+ resources:[
+ {n:"Claude ecosystem (agents, Claude Code)",prov:"Anthropic",fmt:"Docs + free courses (Claude Code 101)",time:"Self-paced",price:"Docs free; Claude Code 101 free",cost:"free",
+  links:[{t:"https://code.claude.com/docs/en/overview",k:"opened"},{t:"https://academy.claude.com",k:"plain"},{t:"https://anthropic.skilljar.com/claude-code-101",k:"opened"}],
+  notes:"She says the consumer agent is now just \"Claude\" (co-work agents)."},
+ {n:"OpenAI ecosystem (Codex, agents, multi-agent workflows)",prov:"OpenAI",fmt:"Developer docs",time:"Self-paced",price:"Free",cost:"free",
+  links:[{t:"https://developers.openai.com/codex/",k:"opened"},{t:"https://academy.openai.com/pages/courses",k:"plain"}],
+  notes:"Academy's Agents & Workflows course feeds from here. Rogue slide also points at an OpenAI learning site with a course \"AI Models & Agents from Scratch\" — URL not findable (see flags)."},
+ {n:"Microsoft Copilot ecosystem (agents, Copilot Studio)",prov:"Microsoft",fmt:"Product site + docs",time:"Self-paced",price:"Free to read; product costs apply",cost:"mixed",
+  links:[{t:"https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio",k:"opened"}]},
+ {n:"Hermes (vendor-neutral, open-source-friendly agent setup)",prov:"Nous Research",fmt:"Open-source agent + docs",time:"Self-paced",price:"Free (open source)",cost:"free",
+  links:[{t:"https://hermes-agent.nousresearch.com",k:"plain"}],
+  notes:"This is the agent you're talking to. Ironically on-topic."},
+ {n:"OpenClaw (open-source AI assistant, self-host)",prov:"Open source",fmt:"Docs + community",time:"Self-paced",price:"Free",cost:"free",
+  links:[{t:"https://openclaw.ai",k:"opened"}]},
+ {n:"Omachi/Omarchy cohort course — identified: Agentic AI for PMs & Engineers (Featuring Claude)",prov:"Maven (Abhai Pratap Singh, AI PM Lead @ Amazon Alexa+ · Dr. Marily Nika, Google)",fmt:"Live cohort: agent architectures, MCP, memory, multi-agent, evals, guardrails; capstone on Demo Day",time:"~6 weeks",price:"$1,499",cost:"paid",
+  links:[{t:"https://maven.com/marily-nika/ai-agent-certification",k:"opened"},{t:"https://omarch.com",k:"verified"}],
+  notes:"She hasn't taken it; good reviews (4.5★). Course page targets early adopters who want in on Omarchy before everyone else — matching her \"Omachi… ecosystem toolset\" phrasing; the Rogue slide shows this course beside the OMARCHY logo."},
+ {n:"Omarchy (DHH's agent-first Linux distro)",prov:"37signals",fmt:"OS ecosystem, not a course",time:"—",price:"Free",cost:"free",
+  links:[{t:"https://omarch.com",k:"verified"}],
+  notes:"The ecosystem the Rogue slide pairs with the Maven cohort course."}
+ ]},
+{id:"alchemist",emoji:"⚗️",name:"Alchemist",tagline:"Turning AI agents into reliable software — from demo to production.",
+ forYouIf:["You can code (or lead engineers) and want agents that don't fall over","You care about evals, reliability, monitoring","You're shipping agent features into real products"],
+ intro:"Skills: agent fundamentals → build first agent (tools, knowledge, multi-agent) → evals & reliability → production.",
+ resources:[
+ {n:"Agent Fundamentals (no-code, option 1)",prov:"Google Skills",fmt:"Interactive course + challenge-lab badge (part of \"Intro to Agents & Google's Agent Ecosystem\")",time:"1.5 h",price:"Free",cost:"free",
+  links:[{t:"https://www.skills.google/paths/3546/course_templates/1562",k:"opened"}]},
+ {n:"Agentic AI and AI Agents: A Primer for Leaders (no-code, option 2)",prov:"Vanderbilt · Coursera",fmt:"Video + assignments",time:"~6 h",price:"Free to audit; cert via sub; 133K enrolled",cost:"mixed",
+  links:[{t:"https://www.coursera.org/learn/agentic-ai",k:"opened"}]},
+ {n:"Agentic AI (code route — Andrew Ng's agent course)",prov:"DeepLearning.AI",fmt:"Video + Python assignments (reflection, tool use, planning, multi-agent, evals)",time:"~9 h 55 m",price:"Free audit; Pro sub for assignments/cert",cost:"mixed",
+  links:[{t:"https://www.deeplearning.ai/courses/agentic-ai",k:"opened"}]},
+ {n:"AI Agents Course (open-source emphasis)",prov:"Hugging Face",fmt:"Text + code, interactive, challenges + certificate",time:"~30–40 h",price:"Free incl. certificate",cost:"free",
+  links:[{t:"https://huggingface.co/learn/agents-course/en/unit0/introduction",k:"opened"}]},
+ {n:"5-Day AI Agents: Intensive Vibe Coding Course with Google",prov:"Kaggle + Google",fmt:"Self-paced guide (whitepapers, codelabs, capstone); live cohort ran Jun 15–19 2026",time:"5 days",price:"Free",cost:"free",
+  links:[{t:"https://www.kaggle.com/learn-guide/5-day-agents-vibecoding",k:"opened"}]},
+ {n:"LangChain Academy — Building Reliable Agents",prov:"LangChain",fmt:"Video + notebooks",time:"Few hours",price:"Free",cost:"free",
+  links:[{t:"https://academy.langchain.com/courses/building-reliable-agents",k:"opened"}],
+  notes:"Also: Monitoring Production Agents — https://academy.langchain.com/courses/production-monitoring · all: https://academy.langchain.com/collections"},
+ {n:"AI Evals for Engineers & PMs (the cohort reliability course)",prov:"Maven (Hamel Husain & Shreya Shankar)",fmt:"Live cohort, 6 weeks",time:"~6 weeks",price:"$4,200 (yes, really)",cost:"paid",flag:"slide-listed price ~$3,500–4,000",
+  links:[{t:"https://maven.com/parlance-labs/evals",k:"opened"}]},
+ {n:"AI Engineering (book, Chip Huyen)",prov:"O'Reilly",fmt:"Book",time:"—",price:"~£40",cost:"paid",
+  links:[{t:"https://www.oreilly.com/library/view/ai-engineering/",k:"verified"}]},
+ {n:"Agent-platform certifications (slide): Anthropic, OpenAI, Google, Microsoft, AWS, LangChain",prov:"Various",fmt:"Exams",time:"—",price:"Varies",cost:"mixed",
+  links:[{t:"https://academy.langchain.com/pages/certifications-lcae",k:"opened"}]}
+ ]},
+{id:"crafter",emoji:"🔨",name:"Crafter",tagline:"Building apps and products with AI doing much of the coding.",
+ forYouIf:["You want to ship a real app using AI tools, with some coding skills","You lead dev teams adopting AI coding tools","You already code and want to go AI-native, not just vibe-code"],
+ intro:"Skills: AI-coding foundations → pick a tool → master it → build in/with AI → ship responsibly. She notes: no well-established foundational AI-coding course exists yet — rely on tool-specific docs.",
+ resources:[
+ {n:"Tool docs: Codex · Claude Code · Cursor · Copilot · Lovable · Bolt (+ slide adds Replit & OpenCode)",prov:"Various",fmt:"Official docs",time:"Self-paced",price:"Free",cost:"free",
+  links:[{t:"https://developers.openai.com/codex/",k:"opened"},{t:"https://code.claude.com/docs/en/overview",k:"opened"},{t:"https://cursor.com/docs",k:"verified"},{t:"https://docs.github.com/en/copilot",k:"verified"},{t:"https://docs.lovable.dev",k:"verified"},{t:"https://support.bolt.new",k:"verified"},{t:"https://replit.com",k:"verified"},{t:"https://opencode.ai",k:"verified"}]},
+ {n:"Beyond Vibe Coding: From Coder to AI-Era Developer (book)",prov:"Addy Osmani · O'Reilly",fmt:"Book — guidelines for sustainable build/deploy/monitor; technical, assumes coding",time:"—",price:"~£25–35 print",cost:"paid",
+  links:[{t:"https://www.oreilly.com/library/view/beyond-vibe-coding/9798341634749/",k:"opened"}]},
+ {n:"The AI-native SDLC playbook",prov:"Anthropic · Claude Academy",fmt:"14-lesson free course (single-page blog version available)",time:"Self-paced",price:"Free (Claude Code + CI/CD assumed)",cost:"free",
+  links:[{t:"https://academy.claude.com/courses/ai-native-sdlc-playbook",k:"opened"},{t:"https://claude.com/blog/the-ai-native-sdlc-playbook",k:"plain"}],
+  notes:"For teams of crafters; Anthropic/Claude-flavoured."}
+ ],
+ slideTables:[{title:"On-screen tool table (OCR-recovered — ★ = she didn't say it out loud)",
+  header:["Tool","Provider","Technicality /5","Specialization (per slide)","Link"],
+  rows:[
+   ["Lovable","Lovable","1","No-code prompt-to-app builder; full-stack web apps, UI, rapid prototyping","https://lovable.dev"],
+   ["Bolt.new","StackBlitz","1","Browser-based AI app builder; instant previews","https://bolt.new"],
+   ["★ Replit","Replit","2","Cloud AI development; build, test, deploy","https://replit.com"],
+   ["Cursor","Anysphere","3","AI-native code editor; coding agents","https://cursor.com"],
+   ["GitHub Copilot","GitHub/Microsoft","3","AI coding assistant + agents; IDE & GitHub workflows","https://github.com/features/copilot"],
+   ["Claude Code","Anthropic","4","Agentic coding; terminal/IDE, codebase reasoning","https://code.claude.com/docs/en/overview"],
+   ["Codex","OpenAI","4","Agentic coding; generation, debugging, parallel tasks","https://developers.openai.com/codex/"],
+   ["★ OpenCode","Open source","4","Open-source coding agent; customizable models","https://opencode.ai"]
+  ]}]},
+{id:"sage",emoji:"🧙",name:"Sage",tagline:"Understanding how models actually work — training, fine-tuning, the maths.",
+ forYouIf:["You want to fine-tune models, not just call APIs","You want to build models from scratch and learn the maths properly","You're the person who needs to know how it all works under the hood"],
+ intro:"Skills: how models really work (gradient descent, backprop, transformers) → train NNs → fine-tune / pre-train → inference & deployment.",
+ resources:[
+ {n:"Neural Networks: Zero to Hero",prov:"Andrej Karpathy",fmt:"Video + code: micrograd → makemore → GPT → GPT-2 reproduction",time:"~25 h across series",price:"Free",cost:"free",flag:"the foundational series",
+  links:[{t:"https://karpathy.ai/zero-to-hero.html",k:"opened"},{t:"https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ",k:"plain"}],
+  notes:"Prereqs: solid Python + intro-level maths (derivatives, gaussians)."},
+ {n:"CS336: Language Modeling from Scratch",prov:"Stanford",fmt:"Full university course, heavy Python, 5 assignments; lecture recordings on YouTube",time:"1 semester",price:"Free materials",cost:"free",
+  links:[{t:"https://cs336.stanford.edu",k:"opened"}],
+  notes:"The \"Stanford course\" she names."},
+ {n:"Neural Networks series (animations)",prov:"3Blue1Brown",fmt:"Animated videos + essays",time:"~1–2 h",price:"Free",cost:"free",
+  links:[{t:"https://www.3blue1brown.com/lessons/neural-networks",k:"opened"},{t:"https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi",k:"plain"}],
+  notes:"The \"animation series\" — pair with Karpathy."},
+ {n:"NVIDIA certifications (she names NVIDIA for Sage)",prov:"NVIDIA DLI",fmt:"Self-paced labs + proctored exams",time:"Exams 68–120 min + prep",price:"NCA-GENL $125 · NCP-GENL $208 (full table on slide below)",cost:"paid",
+  links:[{t:"https://www.nvidia.com/en-us/learn/learning-paths/",k:"opened"},{t:"https://www.nvidia.com/en-us/training/",k:"plain"}]}
+ ],
+ slideTables:[
+  {title:"Slide — Track A: Fine-tuning & building with pretrained models (OCR-recovered)",
+   header:["Resource","Provider","Link","Format","Time","Price"],
+   rows:[
+    ["Short courses incl. SFT, LoRA, DPO (e.g. Finetuning LLMs with TRL)","Hugging Face","https://huggingface.co/learn/cookbook/","Text + coding labs","~3–4 h/unit","Free"],
+    ["LLM Course (comprehensive curriculum)","Hugging Face","https://huggingface.co/learn/llm-course","Text + notebooks","7–95 h (full)","Free"],
+    ["LLM Course (curated roadmap + Colabs)","Maxime Labonne (GitHub)","https://github.com/mlabonne/llm-course","Roadmap + notebooks","Self-paced","Free"],
+    ["Fine-Tuning Guides (practical LoRA/QLoRA)","Unsloth","https://docs.unsloth.ai","Docs + code","Self-paced","Free"],
+    ["Serverless Fine-Tuning tutorials (fine-tune/deploy without managing GPUs)","Crusoe","https://crusoe.ai/intelligence/foundry","Docs + hands-on","Self-paced","Free guides"],
+    ["Post-training & RL fine-tuning courses (fine-tuning, RL, evaluation)","DeepLearning.AI","https://www.deeplearning.ai/short-courses/","Video + labs","1–6 h each","Free videos; Pro sub for extras"]
+   ]},
+  {title:"Slide — Track B: Building models from scratch (OCR-recovered)",
+   header:["Resource","Provider","Link","Format","Time","Price"],
+   rows:[
+    ["Build a Large Language Model (From Scratch)","Sebastian Raschka","https://sebastianraschka.com/llms-from-scratch/ (code: https://github.com/rasbt/LLMs-from-scratch)","Book + coding exercises","Self-paced","~$35–60; free companion videos"],
+    ["CS336: Language Modeling from Scratch (advanced pretraining, scaling, training systems)","Stanford","https://cs336.stanford.edu","Lectures + 5 assignments","~10-week course","Free lectures; GPU costs extra"],
+    ["Smol Training Playbook (real-world model pretraining, datasets, scaling, experiments)","Hugging Face + Weights & Biases","https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook","Interactive technical guide","Self-paced","Free"]
+   ]},
+  {title:"Slide — Sage certifications & exams (OCR-recovered; NVIDIA is the one she names aloud)",
+   header:["Provider","Certification / exam","Price (USD)","Format"],
+   rows:[
+    ["NVIDIA","Certified Professional: Generative AI LLMs (NCP-GENL) — advanced training/fine-tuning/optimisation","$208","120-min exam + prep"],
+    ["NVIDIA","Certified Associate: Generative AI LLMs (NCA-GENL) — foundational LLM concepts","$125","68-min exam + prep"],
+    ["AWS","Machine Learning Engineer Associate (MLA-C01, Beta) — production ML, foundation models, MLOps","$75 (beta)","170-min exam + prep"],
+    ["Google Cloud","Professional Machine Learning Engineer","$208 + tax","120-min exam + prep"],
+    ["Microsoft","Azure AI Apps and Agents Developer Associate (AI-103)","~$165 (regional)","120-min exam + prep"]
+   ]}
+ ]},
+{id:"machinist",emoji:"⚙️",name:"Machinist",tagline:"Running AI on real hardware — small devices, local models, robots.",
+ forYouIf:["You want AI running on ESP32/Raspberry Pi/edge devices","You care about running models locally and privately (Ollama, quantization)","You're into robotics, drones, self-driving, GPU clusters"],
+ intro:"Skills: AI hardware basics → build with kits/devices (ESP32, Raspberry Pi) → memory/bandwidth/compute, quantization, running LLMs on devices → scale-up (data centres) or robotics.",
+ resources:[
+ {n:"Machine Learning Systems, Vol I + Vol II (free textbooks + labs)",prov:"Harvard-affiliated authors (mlsysbook.ai)",fmt:"Free online textbook + 34 in-browser labs (no install) + buyable hardware kits + TinyTorch",time:"~20–30 h",price:"Free (hardcovers via MIT Press)",cost:"free",flag:"the 2-volume free textbooks",
+  links:[{t:"https://mlsysbook.ai",k:"opened"},{t:"https://mlsysbook.ai/vol1/",k:"plain"},{t:"https://mlsysbook.ai/vol2/",k:"plain"},{t:"https://mlsysbook.ai/labs",k:"plain"}]},
+ {n:"TinyML and Efficient AI Computing (the MIT university track)",prov:"MIT HAN Lab (6.5940/6.S965)",fmt:"Full lectures on YouTube + slides + labs (model compression, quantization, efficient inference)",time:"~50 h",price:"Free",cost:"free",
+  links:[{t:"https://efficientml.ai",k:"opened"},{t:"https://hanlab.mit.edu/courses/2024-fall-65940",k:"plain"}]},
+ {n:"TinyML Professional Certificate (slide)",prov:"HarvardX (edX) — Fundamentals / Applications / Deploying TinyML",fmt:"Multi-week, self-paced, Arduino kit",time:"5 weeks × 3 courses",price:"Free audit; verified cert $299/course",cost:"mixed",
+  links:[{t:"https://www.edx.org/learn/tinyml",k:"verified"},{t:"https://www.edx.org/learn/tinyml/harvard-university-deploying-tinyml",k:"verified"}]},
+ {n:"Introduction to Embedded Machine Learning (slide)",prov:"Edge Impulse",fmt:"Hands-on ML with sensors & microcontrollers",time:"~18–20 h",price:"Free; Coursera cert via sub",cost:"mixed",
+  links:[{t:"https://edgeimpulse.com/school-embedded-machine-learning-courses",k:"verified"}]},
+ {n:"NVIDIA certs for edge/scale (Jetson, AI in the Data Center, AI Infrastructure) + Physical AI",prov:"NVIDIA",fmt:"Free self-paced courses + exams",time:"2–20 h each",price:"Free courses; exams ~$135–500",cost:"mixed",
+  links:[{t:"https://www.nvidia.com/en-us/learn/learning-paths/",k:"opened"},{t:"https://docs.nvidia.com/learning/physical-ai/index.html",k:"opened"},{t:"https://docs.nvidia.com/learning/physical-ai/robotics.html",k:"plain"}]},
+ {n:"Local LLMs via Ollama & LM Studio — The Practical Guide (slide)",prov:"Acadimind · Udemy",fmt:"Video (local models, hardware requirements, quantization)",time:"4–5 h",price:"Paid (Udemy sale ~£12–20)",cost:"paid",
+  links:[{t:"https://www.udemy.com/course/running-open-llms-locally-practical-guide/",k:"verified"}]},
+ {n:"Ollama & Local LLMs: Fine-Tune, Deploy, Build Python AI Apps (slide)",prov:"Udemy",fmt:"Video + projects (local AI apps, fine-tuning, Python projects)",time:"~16–18 h",price:"Paid (Udemy sale)",cost:"paid",
+  links:[{t:"https://www.udemy.com/course/mastering-local-llms-with-ollama-and-python-doing-projects/",k:"verified"}]},
+ {n:"Quantization Fundamentals with Hugging Face (slide)",prov:"DeepLearning.AI",fmt:"Video + notebooks (model compression & quantization)",time:"1–2 h",price:"Free access currently; Pro sub for certificate",cost:"mixed",
+  links:[{t:"https://www.deeplearning.ai/short-courses/quantization-fundamentals-with-hugging-face/",k:"opened"}]},
+ {n:"Robotics Course (free crash course, zero robotics knowledge assumed)",prov:"Hugging Face (LeRobot)",fmt:"Text + code",time:"—",price:"Free",cost:"free",
+  links:[{t:"https://huggingface.co/learn/robotics-course/en/unit0/1",k:"opened"}]},
+ {n:"Physical AI / robotics resources (Isaac Sim/Lab/ROS, GR00T, sim-to-real; AV specialisations)",prov:"NVIDIA",fmt:"Free self-paced courses",time:"2–20 h each",price:"Free",cost:"free",
+  links:[{t:"https://docs.nvidia.com/learning/physical-ai/index.html",k:"opened"},{t:"https://docs.nvidia.com/learning/physical-ai/robotics.html",k:"plain"}]}
+ ]}
+];
+const FLAGS = [
+ ["<b>\"AI Prompting\"</b> (Tutorial Island) has been relaunched as <b>\"AI Prompting for Everyone\"</b> (Jul 2026) — the linked version is current."],
+ ["<b>Anthropic Skilljar → Claude Academy migration in progress:</b> skilljar URLs work and redirect onward; academy.claude.com is the new home."],
+ ["<b>Microsoft/LinkedIn \"Careers in Generative AI\":</b> the refresh she anticipates (Sept 25) landed as <b>\"From Prompts to Partnership\", updated 2 Oct 2026</b> — see Tutorial Island."],
+ ["<b>\"Omachi\"</b> in the transcript = <b>Omarchy</b>, and her cohort course = Maven's <i>Agentic AI for PMs &amp; Engineers</i> (identified via the Rogue slide + course-page wording) — see Rogue."],
+ ["Transcript timestamps run ~30 s ahead of the video player (caption offsets) — corrected for when locating slides."],
+ ["<b>Hermes</b> (Rogue): she recommends Hermes for vendor-neutral open-source agent setups."],
+ ["<b>Method:</b> full transcript (38 KB) + RapidOCR of ~50 video frames at slide timestamps + every link opened/search-verified on 23 Oct 2026. \"OCR-recovered\" slide tables contain resources shown on screen that she never says aloud (marked ★)."]
+];
+const SPONSORS = "<b>Coursera</b> — sponsors part of the video (discounts via her description link).<br><b>Crusoe Intelligence Foundry</b> — serverless inference + serverless fine-tuning of open models; $5 free credits (mid-Rogue segment). Not a learning resource.";
+
+/* ============ app ============ */
+const $=(s)=>document.querySelector(s);
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function linkHTML(l){
+  const kind={opened:"OPENED",verified:"SEARCH-VERIFIED",plain:"LINK"}[l.k];
+  return '<a class="'+l.k+'" href="'+esc(l.t)+'" target="_blank" rel="noopener"><span class="lk '+l.k+'">'+kind+'</span>'+esc(l.t)+'</a>';
+}
+function costChip(r){
+  const m={free:["free","Free"],paid:["paid","Paid"],mixed:["mixed","Free/paid options"]}[r.cost]||["mixed","—"];
+  return '<span class="chip '+m[0]+'">'+m[1]+'</span>';
+}
+function flatItems(){
+  const out=[];
+  DATA.forEach(c=>c.resources.forEach(r=>out.push({...r,cls:c.name,clsId:c.id,emoji:c.emoji})));
+  return out;
+}
+function provBucket(p){
+  const keys=["Coursera","DeepLearning.AI","Hugging Face","Kaggle","Anthropic","OpenAI","Google","NVIDIA","Maven","LinkedIn","Udemy","MIT","Stanford","O'Reilly","LangChain","Minecraft".slice(0,0)+"Microsoft","Karpathy","3Blue1Brown","edX","U. of Helsinki","Open source"];
+  for(const k of keys){ if(p.toLowerCase().includes(k.toLowerCase())) return k; }
+  return "Other";
+}
+function homeHTML(){
+  let h='<h2 style="margin-bottom:4px">Pick a class</h2><p style="color:var(--mut);font-size:13.5px;margin-bottom:16px">Everyone starts on Tutorial Island. Then you pick a class — plain-English description first, resources behind the click.</p><div class="grid">';
+  DATA.forEach(c=>{
+    const free=c.resources.filter(r=>r.cost==="free").length;
+    h+='<div class="cls" data-go="'+c.id+'"><h3><span class="em">'+c.emoji+'</span>'+esc(c.name)+'</h3>'+
+       '<div class="role">'+esc(c.tagline)+'</div>'+
+       '<div class="fi"><b>This is for you if…</b><br>'+c.forYouIf.map(f=>"• "+esc(f)).join("<br>")+'</div>'+
+       '<div class="stat">'+c.resources.length+' resources · <span class="f">'+free+' free</span></div></div>';
+  });
+  h+='<div class="cls" data-go="all" style="border-top-color:var(--orange)"><h3><span class="em">📚</span>See all resources</h3>'+
+     '<div class="role">Everything from every class in one place — search, filter by free/paid, filter by provider.</div>'+
+     '<div class="stat">'+flatItems().length+' total resources across all classes</div></div>';
+  return h+"</div>"+footerHTML();
+}
+function detailHTML(c){
+  let h='<button class="back" data-nav="home">← All classes</button><div class="dhead">'+c.emoji+' '+esc(c.name)+'</div>'+
+      '<div class="dsub">'+esc(c.tagline)+'<br>'+esc(c.intro)+'</div>';
+  c.resources.forEach(r=>{
+    h+='<div class="res"><h4>'+esc(r.n)+(r.flag?' <span class="chip" style="background:#FFF0E3;color:var(--orange)">'+esc(r.flag)+'</span>':'')+'</h4>'+
+       '<div class="prov">'+esc(r.prov)+'</div><div class="meta">'+costChip(r)+
+       (r.fmt?'<span class="chip">'+esc(r.fmt)+'</span>':'')+(r.time?'<span class="chip time">'+esc(r.time)+'</span>':'')+'</div>'+
+       (r.price?'<div class="notes"><b>Price:</b> '+esc(r.price)+'</div>':'')+
+       (r.notes?'<div class="notes">'+esc(r.notes)+'</div>':'')+
+       (r.links&&r.links.length?'<div class="links">'+r.links.map(linkHTML).join("")+'</div>':'')+'</div>';
+  });
+  (c.slideTables||[]).forEach(t=>{
+    h+='<div class="slidebox"><h5>'+esc(t.title)+'</h5><table><tr>'+t.header.map(x=>"<th>"+esc(x)+"</th>").join("")+"</tr>"+
+       t.rows.map(r=>"<tr>"+r.map(cell=>{
+         const urlm=cell.match(/https?:\/\/[^\s()]+/g);
+         if(urlm){ let s=esc(cell); urlm.forEach(u=>{ s=s.split(u).join('<a href="'+u+'" target="_blank" rel="noopener" style="color:#1B6FC4;word-break:break-all">'+u+'</a>'); }); return "<td>"+s+"</td>"; }
+         return "<td>"+esc(cell)+"</td>";
+       }).join("")+"</tr>").join("")+"</table></div>";
+  });
+  return h+footerHTML();
+}
+let FILTERS={q:"",cost:"all",prov:"all"};
+function seeAllHTML(){
+  const items=flatItems();
+  const provs=[...new Set(items.map(i=>provBucket(i.prov)))].sort();
+  let h='<button class="back" data-nav="home">← All classes</button><div class="dhead">📚 All resources ('+items.length+')</div>'+
+    '<div class="dsub">Every course, book, doc and certification from the video — search, filter, go.</div>'+
+    '<div class="bar"><input id="q" placeholder="Search resource, provider, notes…" value="'+esc(FILTERS.q)+'">'+
+    '<div class="seg"><button data-cost="all" class="'+(FILTERS.cost==="all"?"on":"")+'">All</button>'+
+    '<button data-cost="free" class="'+(FILTERS.cost==="free"?"on":"")+'">Free</button>'+
+    '<button data-cost="paid" class="'+(FILTERS.cost==="paid"?"on":"")+'">Paid</button></div>'+
+    '<select id="prov"><option value="all">All providers</option>'+provs.map(p=>'<option value="'+esc(p)+'"'+(FILTERS.prov===p?" selected":"")+'>Includes: '+esc(p)+'</option>').join("")+'</select></div>'+
+    '<div id="rows" class="count">…</div>';
+  return h+footerHTML();
+}
+function renderRows(){
+  const items=flatItems().filter(i=>{
+    const q=FILTERS.q.toLowerCase();
+    const hay=(i.n+" "+i.prov+" "+(i.notes||"")+" "+(i.fmt||"")+" "+i.cls).toLowerCase();
+    if(q && !hay.includes(q)) return false;
+    if(FILTERS.cost!=="all" && i.cost!==FILTERS.cost) return false;
+    if(FILTERS.prov!=="all" && provBucket(i.prov)!==FILTERS.prov) return false;
+    return true;
+  });
+  const el=$("#rows");
+  el.innerHTML='<div style="margin:10px 0">'+items.length+' of '+flatItems().length+' shown</div>'+
+    (items.map(i=>'<div class="row"><span class="cls-tag">'+i.emoji+' '+esc(i.cls)+'</span><h4>'+esc(i.n)+'</h4> <span class="prov">— '+esc(i.prov)+'</span>'+
+      '<div class="meta">'+costChip(i)+(i.time?'<span class="chip time">'+esc(i.time)+'</span>':'')+(i.price?'<span class="chip">'+esc(i.price)+'</span>':'')+'</div>'+
+      (i.links&&i.links.length?'<div class="links">'+i.links.map(linkHTML).join("")+'</div>':'')+'</div>').join("")||
+     '<p style="color:var(--mut)">No matches — clear the filters.</p>');
+}
+function footerHTML(){
+  return '<div class="foot"><h4>⚑ Flags &amp; fixes worth knowing</h4><ul>'+FLAGS.map(f=>"<li>"+f[0]+"</li>").join("")+'</ul>'+
+    '<h4>💰 Sponsor mentions in the video (not courses)</h4>'+SPONSORS+
+    '<h4>🔗 Source</h4><a href="https://www.youtube.com/watch?v=mn0agTT8lG8" target="_blank" rel="noopener">https://www.youtube.com/watch?v=mn0agTT8lG8</a> — Tina Huang, 25:31 · compiled 23 Oct 2026 · full notes in ai-roadmap-course-links.md/.docx</div>';
+}
+function toTop(){try{window.scrollTo(0,0)}catch(e){}}
+function wireSeeAll(){
+  $("#q").oninput=e=>{FILTERS.q=e.target.value;renderRows()};
+  $("#prov").onchange=e=>{FILTERS.prov=e.target.value;renderRows()};
+  document.querySelectorAll("[data-cost]").forEach(b=>b.onclick=()=>{FILTERS.cost=b.dataset.cost;
+    document.querySelectorAll("[data-cost]").forEach(x=>x.classList.toggle("on",x===b));renderRows();});
+}
+function wireAll(){
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+  document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>go(b.dataset.nav));
+}
+function go(view){
+  toTop();
+  if(view==="home") $("#view").innerHTML=homeHTML();
+  else if(view==="all"){ $("#view").innerHTML=seeAllHTML(); renderRows(); wireSeeAll(); }
+  else $("#view").innerHTML=detailHTML(DATA.find(c=>c.id===view));
+  wireAll();
+}
+wireAll();
+go("home");
+</script>
+</body>
+</html>
